@@ -1,15 +1,12 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using ManchesterProtocolML.Models;
+using ManchesterProtocolML.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ManchesterProtocolML
 {
@@ -28,7 +25,14 @@ namespace ManchesterProtocolML
             services.AddControllersWithViews()
                 .AddFluentValidation();
 
-
+            services.AddTransient<IValidator<Paciente>, PacienteValidator>();
+            services.AddTransient<IValidator<Prontuario>, ProntuarioValidator>();
+            services.AddTransient<IValidator<Sintoma>, SintomaValidator>();
+            services.AddTransient<IValidator<Situacao>, SituacaoValidator>();
+            services.AddTransient<IValidator<TipoSintoma>, TipoSintomaValidator>();
+            services.AddTransient<IValidator<Prioridade>, PrioridadeValidator>();
+            services.AddTransient<IValidator<Situacao>, SituacaoValidator>();
+            services.AddTransient<IValidator<Status>, StatusValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
