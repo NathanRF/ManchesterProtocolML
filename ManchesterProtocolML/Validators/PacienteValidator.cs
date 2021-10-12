@@ -14,9 +14,9 @@ namespace ManchesterProtocolML.Validators
                 .MinimumLength(3).WithMessage("O campo 'Nome' deve possuir no mínimo 3 caracteres")
                 .MaximumLength(50).WithMessage("O campo 'Nome' deve possuir no máximo 50 caracteres");
 
-            RuleFor(c => c.Sobrenome).NotEmpty().WithMessage("Preencha o campo 'Mensagem'")
-                .MinimumLength(4).WithMessage("O campo 'Mensagem' deve possuir no mínimo 4 caracteres")
-                .MaximumLength(50).WithMessage("O campo 'Mensagem' deve possuir no máximo 50 caracteres");
+            RuleFor(c => c.Sobrenome).NotEmpty().WithMessage("Preencha o campo 'Sobrenome'")
+                .MinimumLength(4).WithMessage("O campo 'Sobrenome' deve possuir no mínimo 4 caracteres")
+                .MaximumLength(100).WithMessage("O campo 'Sobrenome' deve possuir no máximo 100 caracteres");
 
             RuleFor(c => c.Idade)
                 .GreaterThanOrEqualTo(0).WithMessage("O campo 'Idade' deve ser maior ou igual que 0")
