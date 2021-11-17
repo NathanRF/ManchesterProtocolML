@@ -8,7 +8,7 @@ namespace ManchesterProtocolML.Validators
     {
         public PrioridadeValidator()
         {
-            RuleFor(c => c.Id).NotEqual(Guid.Empty)
+            RuleFor(c => c.Id).NotEmpty()
                 .WithMessage("Prioridade com Id inválido");
 
             RuleFor(c => c.Identificador).NotEmpty()

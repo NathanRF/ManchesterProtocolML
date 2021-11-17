@@ -19,11 +19,11 @@ namespace ManchesterProtocolML.Validators
                 .MaximumLength(100).WithMessage("O campo 'Sobrenome' deve possuir no máximo 100 caracteres");
 
             RuleFor(c => c.Idade)
-                .GreaterThanOrEqualTo(0).WithMessage("O campo 'Idade' deve ser maior ou igual que 0")
-                .LessThan(123).WithMessage("O campo 'Idade' deve possuir no máximo 122");
+                .InclusiveBetween(0, 123).WithMessage("O campo 'Idade' deve ter um valor entre 0 e 123");
 
             RuleFor(c => c.HoraDeEntrada)
-                .GreaterThan(DateTime.UtcNow.AddDays(-1)).WithMessage("O campo 'Hora de Entrada' não deve ter uma data inferior a data atual");
+                .InclusiveBetween(DateTime.Now.Date, DateTime.Now.Date.AddDays(1).AddTicks(-1))
+                .WithMessage("O campo 'Hora de Chegada' não deve ter uma data diferente da data atual");
 
             RuleFor(c => c.Prontuario).NotNull()
                 .WithMessage("O prontuário do paciente não pode ficar vazio");

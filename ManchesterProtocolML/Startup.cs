@@ -23,16 +23,22 @@ namespace ManchesterProtocolML
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews()
-                .AddFluentValidation();
+                .AddFluentValidation(x =>
+                {
+                    x.DisableDataAnnotationsValidation = true;
+                    x.ImplicitlyValidateChildProperties = true;
 
-            services.AddTransient<IValidator<Paciente>, PacienteValidator>();
-            services.AddTransient<IValidator<Prontuario>, ProntuarioValidator>();
-            services.AddTransient<IValidator<Sintoma>, SintomaValidator>();
-            services.AddTransient<IValidator<Situacao>, SituacaoValidator>();
-            services.AddTransient<IValidator<TipoSintoma>, TipoSintomaValidator>();
-            services.AddTransient<IValidator<Prioridade>, PrioridadeValidator>();
-            services.AddTransient<IValidator<Situacao>, SituacaoValidator>();
-            services.AddTransient<IValidator<Status>, StatusValidator>();
+                    x.RegisterValidatorsFromAssemblyContaining<Paciente>();
+                });
+
+            //services.AddTransient<IValidator<Paciente>, PacienteValidator>();
+            //services.AddTransient<IValidator<Prontuario>, ProntuarioValidator>();
+            //services.AddTransient<IValidator<Sintoma>, SintomaValidator>();
+            //services.AddTransient<IValidator<Situacao>, SituacaoValidator>();
+            //services.AddTransient<IValidator<TipoSintoma>, TipoSintomaValidator>();
+            //services.AddTransient<IValidator<Prioridade>, PrioridadeValidator>();
+            //services.AddTransient<IValidator<Situacao>, SituacaoValidator>();
+            //services.AddTransient<IValidator<Status>, StatusValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

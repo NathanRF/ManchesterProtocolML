@@ -8,7 +8,7 @@ namespace ManchesterProtocolML.Validators
     {
         public StatusValidator()
         {
-            RuleFor(c => c.Id).NotEqual(Guid.Empty)
+            RuleFor(c => c.Id).NotEmpty()
                 .WithMessage("Status com Id inválido");
 
             RuleFor(c => c.Identificador).NotEmpty()

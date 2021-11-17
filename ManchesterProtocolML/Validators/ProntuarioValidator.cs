@@ -8,7 +8,7 @@ namespace ManchesterProtocolML.Validators
     {
         public ProntuarioValidator()
         {
-            RuleFor(c => c.Id).NotEqual(Guid.Empty).WithMessage("Prontuário com Id inválido");
+            RuleFor(c => c.Id).NotEmpty().WithMessage("Prontuário com Id inválido");
 
             RuleFor(c => c.FrequenciaCardiaca)
                 .LessThan(200)
@@ -28,7 +28,7 @@ namespace ManchesterProtocolML.Validators
                 .GreaterThan(0)
                 .WithMessage("O campo 'Frequência Respiratória' deve ser maior ou igual a 0");
 
-            RuleFor(c => c.Sintoma).NotNull()
+            RuleFor(c => c.Sintomas).NotEmpty()
                 .WithMessage("O sintoma precisa ser informado no prontuário");
         }
     }

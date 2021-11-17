@@ -1,8 +1,70 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Paciente>
+@{
+    ViewData["Title"] = "Fila de atendimento";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Fila de atendimento</title>
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+</head>
+<body>
+    <header class="py-2 mb-3 border-bottom shadow-sm">
+        <div class="container-fluid d-grid gap-2">
+            <div>
+                <h1 class="page-title">Fila de atendimento</h1>
+            </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+            <div class="d-flex">
+                <div class="me-3 w-100">
+                    <input type="search"
+                           class="form-control rounded-pill border-dark w-100"
+                           placeholder="🔎 Prioridade ou nome"
+                           aria-label="Search"
+                           id="list-search" />
+                </div>
+                <button class="btn" type="button" id="sort">
+                </button>
+                <select class="form-select" id="order-type">
+                    <option selected value="1">Prioridade </option>
+                    <option value="2">Nome</option>
+                    <!-- <option value="3">Hora de Chegada</option> -->
+                </select>
+            </div>
+        </div>
+
+    </header>
+    <main class="my-1">
+        <ol id="pacientes">
+            @foreach (var paciente in Model)
+            {
+                <li class="py-2 px-2 border-bottom patient-card">
+                    <a href="./paciente?id=@paciente.Id">
+                        <div class="d-grid">
+                            <div>
+                                <h2>@(paciente.Nome + ' ' + paciente.Sobrenome)</h2>
+                                <div class="detalhes d-flex flex-sb">
+                                    <p class="py-3 px-2">@paciente.Prontuario.ListaSintomas</p>
+                                    <p>Editar 📝</p>
+                                </div>
+                                <div class="listaStatus d-flex">
+                                    <span class="prioridade @paciente.Situacao.Prioridade.IdentificadorNormalizado rounded-pill">@paciente.Situacao.Prioridade.Identificador</span>
+                                    <span class="status @paciente.Situacao.Status.IdentificadorNormalizado rounded-pill">@paciente.Situacao.Status.Identificador</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ol>
+        <div class="float">
+            <button class="btn" type="button" id="add">+</button>
+        </div>
+    </main>
+</body>
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_Scripts");
+    }
+}

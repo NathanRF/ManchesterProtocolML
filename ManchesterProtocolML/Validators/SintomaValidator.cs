@@ -8,7 +8,7 @@ namespace ManchesterProtocolML.Validators
     {
         public SintomaValidator()
         {
-            RuleFor(c => c.Id).NotEqual(Guid.Empty)
+            RuleFor(c => c.Id).NotEmpty()
                 .WithMessage("Sintoma com Id inválido");
 
             RuleFor(c => c.Nome).NotEmpty()

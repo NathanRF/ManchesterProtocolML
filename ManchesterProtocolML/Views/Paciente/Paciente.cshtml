@@ -1,0 +1,95 @@
+﻿@model PacienteViewModel
+@{
+    ViewData["Title"] = "Paciente";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paciente</title>
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/lib/jquery-chosen/dist/css/chosen.min.css" type="text/css">
+</head>
+<body>
+    <header class="py-2 border-bottom shadow-sm">
+        <div class="d-flex flex-center flex-sb" id="patientHeader">
+            <div class="d-flex flex-center">
+                <button class="rounded-pill cancel-btn" id="cancel">x</button>
+                <h1 class="page-title">Cadastrar paciente</h1>
+            </div>
+            <button class="rounded-pill add-btn" id="save" type="submit">Salvar</button>
+        </div>
+    </header>
+
+    <main class="px-2 my-2">
+        <form class="d-flex flex-v" id="paciente">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <label for="nome" class="innerLabel">Nome:</label>
+            <input asp-for="Paciente.Nome" class="detail" id="nome" placeholder="Nome" />
+            <span asp-validation-for="Paciente.Nome"></span>
+
+            <label for="sobrenome" class="innerLabel">Sobrenome:</label>
+            <input asp-for="Paciente.Sobrenome" class="detail" id="sobrenome" placeholder="Sobrenome" />
+            <span asp-validation-for="Paciente.Sobrenome"></span>
+
+            <label for="idade" class="innerLabel">Idade:</label>
+            <input asp-for="Paciente.Idade" class="detail" id="idade" placeholder="Idade" />
+            <span asp-validation-for="Paciente.Idade"></span>
+
+            <label for="chegada" class="innerLabel">Hora de chegada:</label>
+            <input type="time" class="detail" id="chegada" />
+            <span asp-validation-for="Paciente.HoraDeEntrada"></span>
+
+            <label for="status" class="innerLabel" id="statusLabel">Status:</label>
+            <select class="detail" id="status">
+                @foreach (var item in Model.Statuses)
+                {
+                    <option value=@item.Id>@item.Identificador</option>
+                }
+            </select>
+            <span></span>
+
+            <label for="priority" class="innerLabel" id="priorityLabel">Prioridade:</label>
+            <select asp-for="Paciente.Situacao.Prioridade" class="detail" id="priority">
+                @foreach (var item in Model.Prioridades)
+                {
+                    <option value=@item.Id>@item.Identificador</option>
+                }
+            </select>
+            <span></span>
+
+            <label for="sintoma" class="innerLabel">Sintomas:</label>
+@*          <input list="sintomas" class="detail" id="sintoma" placeholder="Sintoma" />
+            <datalist id="sintomas"></datalist>*@
+            <select asp-for="Paciente.Prontuario.Sintomas" class="detail" id="sintoma">
+                @foreach (var item in Model.Sintomas)
+                {
+                    <option value=@item.Id>@item.Nome</option>
+                }
+            </select>
+            <span asp-validation-for="Paciente.Prontuario.Sintomas"></span>
+
+            <label for="coracao" class="innerLabel">Frequência cardíaca:</label>
+            <input asp-for="Paciente.Prontuario.FrequenciaCardiaca" class="detail" id="coracao" placeholder="Frequência cardíaca" />
+            <span asp-validation-for="Paciente.Prontuario.FrequenciaCardiaca"></span>
+
+            <label for="temperatura" class="innerLabel">Temperatura:</label>
+            <input asp-for="Paciente.Prontuario.FrequenciaCardiaca" class="detail" id="temperatura" placeholder="Temperatura" />
+            <span asp-validation-for="Paciente.Prontuario.FrequenciaCardiaca"></span>
+
+            <label for="oxigenio" class="innerLabel">Saturação de oxigênio:</label>
+            <input asp-for="Paciente.Prontuario.SaturacaoOxigenio" class="detail" id="oxigenio" placeholder="Saturação de oxigênio" />
+            <span asp-validation-for="Paciente.Prontuario.SaturacaoOxigenio"></span>
+
+            <label for="respiracao" class="innerLabel">Frequência respiratória:</label>
+            <input asp-for="Paciente.Prontuario.FrequenciaRespiratoria" class="detail" id="respiracao" placeholder="Frequência respiratória" />
+            <span asp-validation-for="Paciente.Prontuario.FrequenciaRespiratoria"></span>
+        </form>
+    </main>
+</body>
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_Scripts");
+    }
+}

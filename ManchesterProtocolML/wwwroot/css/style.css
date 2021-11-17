@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 12pt;
+    font-weight: normal;
+    line-height: 1.5rem;
+    box-sizing: border-box;
+}
+
+header {
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 50px;
+    z-index: 200;
+}
+
+h1 {
+    font-size: 6vmin;
+    font-weight: bold;
+    padding-top: 4px;
+}
+
+#patientHeader > div h1 {
+    font-size: 5vmin;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.d-flex {
+    display: flex;
+    gap: 1rem;
+}
+
+.flex-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-v {
+    flex-direction: column;
+}
+
+.flex-sb {
+    justify-content: space-between;
+}
+
+.flex-se {
+    justify-content: space-evenly;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.h-80 {
+    height: 75%;
+}
+
+.d-grid {
+    display: grid;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #ccc;
+}
+
+.shadow-sm {
+    box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.075);
+}
+
+.rounded-pill {
+    border-radius: 50rem;
+}
+
+.my-1 {
+    margin-top: 7rem;
+    margin-bottom: 10px;
+}
+
+.my-2 {
+    margin-top: 5rem;
+    margin-top: 5rem;
+    margin-bottom: 10px;
+}
+
+.py-2 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.px-2 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.mx-2 {
+    margin-right: 1rem;
+}
+
+.gap-2 {
+    row-gap: 1.2rem;
+}
+
+.form-select {
+    border-style: none;
+    background: none;
+    outline: none;
+}
+
+input {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    height: 2.2rem;
+    outline: none;
+}
+
+.detail {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 2px;
+    height: 3rem;
+    outline: none;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#sort {
+    background: none;
+    outline: none;
+    border: none;
+    max-width: 30px;
+    min-width: 30px;
+    min-height: 32px;
+}
+
+#add {
+    background: white;
+    outline: none;
+    border-radius: 30%;
+    border-width: 2px;
+    max-width: 55px;
+    min-width: 55px;
+    min-height: 55px;
+    font-size: 2.2rem;
+    font-weight: bold;
+    box-shadow: 2px 3px 7px #999;
+}
+
+.add-btn {
+    height: 30px;
+    background-color: white;
+    border-style: solid;
+    border-width: 0.15rem;
+    padding: 0.1rem 0.7rem 0.2rem 0.7rem;
+    max-height: 2.3rem;
+}
+
+.cancel-btn {
+    height: 30px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    font-family: monospace;
+    font-weight: 700;
+    padding-right: 10px;
+    padding-left: 7px;
+}
+
+.float {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 30px;
+    right: 30px;
+    text-align: center;
+}
+
+img {
+    display: block;
+    background-size: auto;
+}
+
+.status {
+    border-style: solid;
+    border-width: 0.15rem;
+    padding: 0.2rem 0.7rem 0.2rem 0.7rem;
+    max-height: 2.3rem;
+}
+
+.prioridade {
+    padding: 0.4rem 0.7rem 0.2rem 0.7rem;
+    font-weight: 800;
+    max-height: 2.3rem;
+}
+
+.emergencia {
+    background-color: #ff4161;
+    /* color: white; */
+}
+
+.muito-urgente {
+    background-color: #ff9f61;
+}
+
+.urgente {
+    background-color: #fff154;
+}
+
+.pouco-urgente {
+    background-color: #60eb70;
+}
+
+.nao-urgente {
+    background-color: #38cdff;
+}
+
+.em-espera {
+    border-color: #a68b2e;
+}
+
+.em-consulta {
+    border-color: #8d52d9;
+}
+
+.atendido {
+    border-color: #534154;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#chegada {
+    width: 100%;
+    background: none;
+}
+
+.innerLabel {
+    margin-bottom: -27px;
+    margin-left: 5px;
+    font-size: small;
+    background-color: white;
+    z-index: 20;
+    width: fit-content;
+    height: fit-content;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#status {
+    display: none;
+}
+
+#statusLabel {
+    display: none;
+}
+
+/* #priority {
+    display: none;
+}
+
+#priorityLabel {
+    display: none;
+} */
