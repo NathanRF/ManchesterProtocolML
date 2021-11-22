@@ -1,6 +1,10 @@
-﻿<script src="~/lib/jquery-chosen/dist/chosen.jquery.min.js"></script>
-<script src="~/lib/jquery-chosen/dist/chosen.proto.min.js"></script>
-<script src="/js/paciente.js"></script>
+﻿<script src="/lib/select2/js/select2.min.js"></script>
 <script>
-
+    $(document).ready(function() {
+        $('#sintoma').select2({
+            width: 'auto',
+            id: 'sintoma'
+        });
+    });
 </script>
+<script src="/js/paciente.js"></script>

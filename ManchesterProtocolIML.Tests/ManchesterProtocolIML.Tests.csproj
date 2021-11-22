@@ -25,4 +25,8 @@
     <ProjectReference Include="..\ManchesterProtocolML\ManchesterProtocolML.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\" />
+  </ItemGroup>
+
 </Project>

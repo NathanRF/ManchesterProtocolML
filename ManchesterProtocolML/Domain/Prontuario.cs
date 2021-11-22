@@ -6,6 +6,10 @@ namespace ManchesterProtocolML.Models
 {
     public class Prontuario
     {
+        public Prontuario()
+        {
+
+        }
         public Prontuario(Guid id, int frequenciaCardiaca, int saturacaoOxigenio, int frequenciaRespiratoria, List<Sintoma> sintomas)
         {
             Id = id;

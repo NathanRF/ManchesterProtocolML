@@ -1,3 +1,4 @@
+"use strict";
 let pacientes = localStorage.getItem('pacientes') ? JSON.parse(localStorage.getItem('pacientes')) : [];
 let editando = true;
 
@@ -15,17 +16,23 @@ function buscaPacientePorId(id) {
 
 function preencheFormulario(paciente) {
     if (paciente) {
+        document.querySelector('#id').value = paciente.id;
         document.querySelector('#nome').value = paciente.nome;
         document.querySelector('#sobrenome').value = paciente.sobrenome;
         document.querySelector('#idade').value = paciente.idade;
         document.querySelector('#chegada').value = paciente.horaDeEntrada;
-        document.querySelector('#sintoma').value = paciente.sintoma.nome;
+        let sintomasSelecionados = new Array();
+        const sintomasDisponiveis = Array.prototype.slice.call(document.querySelector('#sintoma').options);
+        for (var sintoma in paciente.sintomas) {
+            document.getElementById('sintoma').options[sintomasDisponiveis.filter(s => s.value == sintoma)[0].index].selected = true;
+        }
+
         document.querySelector('#coracao').value = paciente.frequenciaCardiaca;
         document.querySelector('#temperatura').value = paciente.temperatura;
         document.querySelector('#oxigenio').value = paciente.saturacaoOxigenio;
         document.querySelector('#respiracao').value = paciente.frequenciaRespiratoria;
-        document.querySelector('#status').options[obterCodigoStatus(paciente.status)].selected = true;
-        document.querySelector('#priority').options[obterCodigoPrioridade(paciente.prioridade) - 1].selected = true;
+        document.querySelector('#status').value = paciente.status;
+        document.querySelector('#priority').value = paciente.prioridade;
     }
 }
 
@@ -36,7 +43,6 @@ function horaDeChegadaPadrao() {
 }
 
 function formularioDeCriacao() {
-    popularSintomas();
     horaDeChegadaPadrao();
 }
 
@@ -45,6 +51,7 @@ function bloquearCamposEdicao() {
     document.querySelector('#sobrenome').disabled = true;
     document.querySelector('#idade').disabled = true;
     document.querySelector('#chegada').disabled = true;
+    document.querySelector('#priority').disabled = true;
 }
 
 function atualizatitulo(titulo) {
@@ -58,10 +65,9 @@ function exibirCamposOcultos() {
 
 function formularioDeEdicao(paciente) {
     atualizatitulo("Editar paciente");
-    //popularSintomas();
     exibirCamposOcultos();
     bloquearCamposEdicao();
-    //preencheFormulario(paciente);
+    preencheFormulario(paciente);
 }
 
 function getId() {
@@ -89,16 +95,15 @@ function carregarLista() {
 
 function toggleFieldsInnerLabel(element) {
     const elementId = element.id;
-    if (element.value) {
+    if (element.value && document.querySelector(`label[for="${elementId}"]`)) {
         document.querySelector(`label[for="${elementId}"]`).style.visibility = 'visible';
     }
-    else {
+    else if (document.querySelector(`label[for="${elementId}"]`)) {
         document.querySelector(`label[for="${elementId}"]`).style.visibility = 'hidden';
     }
 }
 
 function salvarPaciente() {
-    debugger;
     if (editando) {
         let pacienteEdit = pacientes.filter(p => p.id == getId())[0] ?? new Object();
         //pacienteEdit.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0]
@@ -107,28 +112,42 @@ function salvarPaciente() {
         pacienteEdit.saturacaoOxigenio = document.querySelector('#oxigenio').value;
         pacienteEdit.frequenciaRespiratoria = document.querySelector('#respiracao').value;
         pacienteEdit.status = document.querySelector('#status').value;
+        pacienteEdit.statusLabel = document.querySelector('#status').selectedOptions[0].label;
         pacienteEdit.prioridade = document.querySelector('#priority').value;
+        pacienteEdit.prioridadeLabel = document.querySelector('#priority').selectedOptions[0].label;
 
         pacientes.filter(p => p.id == getId())[0] = pacienteEdit;
+        console.log("edit form");
     }
     else {
-        const paciente = new Paciente();
+        let paciente = new Object();
         paciente.id = uuidv4();
+        document.querySelector('#id').value = paciente.id;
         paciente.nome = document.querySelector('#nome').value;
         paciente.sobrenome = document.querySelector('#sobrenome').value;
         paciente.idade = document.querySelector('#idade').value;
         paciente.horaDeEntrada = document.querySelector('#chegada').value;
         //paciente.prontuario = new Prontuario();
         //paciente.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0];
+        paciente.sintomas = new Array();
+        paciente.sintomasLabels = new Array();
+        const options = document.querySelector('#sintoma').selectedOptions;
+        for (var i = 0; i < options.length; i++) {
+            paciente.sintomas.push(options[i].value);
+            paciente.sintomasLabels.push(options[i].label);
+        }
         paciente.frequenciaCardiaca = document.querySelector('#coracao').value;
         paciente.temperatura = document.querySelector('#temperatura').value;
         paciente.saturacaoOxigenio = document.querySelector('#oxigenio').value;
         paciente.frequenciaRespiratoria = document.querySelector('#respiracao').value;
         //paciente.situacao = new Situacao();
         paciente.status = document.querySelector('#status').value;
+        paciente.statusLabel = document.querySelector('#status')[document.querySelector('#status').selectedIndex].text;
         paciente.prioridade = document.querySelector('#priority').value;
+        paciente.prioridadeLabel = document.querySelector('#priority')[document.querySelector('#priority').selectedIndex].text;
 
         pacientes.push(paciente);
+        console.log("create form");
     }
 
     localStorage.setItem('pacientes', JSON.stringify(pacientes));
@@ -142,7 +161,8 @@ document.getElementById("cancel").addEventListener("click", () => {
 
 document.getElementById("save").addEventListener("click", () => {
     salvarPaciente();
-    document.location.href = "home";
+    //document.location.href = "home";
+    document.getElementById("paciente").submit();
 });
 
 document.querySelectorAll(".detail").forEach(element => {

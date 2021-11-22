@@ -7,6 +7,10 @@ namespace ManchesterProtocolML.Models
 {
     public class Status
     {
+        public Status()
+        {
+
+        }
         public Status(int id, string identificador)
         {
             Id = id;

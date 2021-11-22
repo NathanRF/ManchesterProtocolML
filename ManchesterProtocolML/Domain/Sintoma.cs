@@ -4,6 +4,10 @@ namespace ManchesterProtocolML.Models
 {
     public class Sintoma
     {
+        public Sintoma()
+        {
+
+        }
         public Sintoma(int id, string nome, TipoSintoma tipoSintoma)
         {
             Id = id;

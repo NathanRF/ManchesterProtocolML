@@ -4,6 +4,10 @@ namespace ManchesterProtocolML.Models
 {
     public class Paciente
     {
+        public Paciente()
+        {
+
+        }
         public Paciente(Guid id, string nome, string sobrenome, int idade, DateTime horaDeEntrada, Prontuario prontuario, Situacao situacao)
         {
             Id = id;

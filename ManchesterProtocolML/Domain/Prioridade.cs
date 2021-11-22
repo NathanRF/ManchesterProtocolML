@@ -7,6 +7,10 @@ namespace ManchesterProtocolML.Models
 {
     public class Prioridade
     {
+        public Prioridade()
+        {
+
+        }
         public Prioridade(int id, string identificador)
         {
             Id = id;

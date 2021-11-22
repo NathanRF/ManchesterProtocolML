@@ -4,6 +4,10 @@ namespace ManchesterProtocolML.Models
 {
     public class Situacao
     {
+        public Situacao()
+        {
+
+        }
         public Situacao(Guid id, Status status, Prioridade prioridade)
         {
             Id = id;

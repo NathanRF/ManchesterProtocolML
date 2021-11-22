@@ -56,67 +56,49 @@ function getSortOrderElement(sortOrder) {
     }
 }
 
-//async function carregarPacientesDeTeste() {
-//    if (!localStorage.getItem('pacientes')) {
-//        const today = new Date();
-//        const now = today.toLocaleTimeString().substring(0, 5);
-//        localStorage.setItem('pacientes', JSON.stringify([
-//            new Paciente(1, 'Tom', 'Hagen', 89, now, new Prontuario(100, 36, 99, 20, 0, Sintomas.filter(s => s.id == 125)[0]), new Situacao('Em consulta', 'Emergência', obterCodigoPrioridade('Emergência'))),
-//            new Paciente(2, 'Peter', 'Clemenza', 88, now, new Prontuario(124, 36.5, 100, 18, 0, Sintomas.filter(s => s.id == 43)[0]), new Situacao('Em consulta', 'Muito Urgente', obterCodigoPrioridade('Muito Urgente'))),
-//            new Paciente(3, 'Henry', 'Hill', 78, now, new Prontuario(70, 36.6, 100, 17, 0, Sintomas.filter(s => s.id == 43)[0]), new Situacao('Em espera', 'Urgente', obterCodigoPrioridade('Urgente'))),
-//            new Paciente(4, 'Jimmy', 'Conway', 78, now, new Prontuario(78, 36, 99, 18, 0, Sintomas.filter(s => s.id == 43)[0]), new Situacao('Em espera', 'Pouco Urgente', obterCodigoPrioridade('Pouco Urgente'))),
-//            new Paciente(5, 'Tommy', 'DeVito', 93, now, new Prontuario(60, 36.2, 100, 20, 0, Sintomas.filter(s => s.id == 43)[0]), new Situacao('Atendido', 'Não Urgente', obterCodigoPrioridade('Não Urgente'))),
-//        ]));
-//    }
-//}
-
 async function carregarPacientes() {
     Pacientes = JSON.parse(localStorage.getItem('pacientes'));
 }
 
 async function carregarListaDePacientes() {
-    try {
+    if (Pacientes) {
+        document.querySelector('#emptyList').setAttribute("style", "display: none");
         document.querySelector("#pacientes").replaceChildren();
         Pacientes.forEach(paciente => {
             const pacienteElement = document.createElement("li");
             pacienteElement.classList.add("py-2", "px-2", "border-bottom", "patient-card");
-            // pacienteElement.id = paciente.id;
             pacienteElement.innerHTML = `
-            <a href="./pacienteDetalhes.html?id=${paciente.id}">
-                <div class="d-grid">
-                    <div>
-                        <h2>${paciente.nome + ' ' + paciente.sobrenome} </h2>
-                        <div class="detalhes d-flex flex-sb">
-                            <p class="py-3 px-2">${Sintomas.filter(sintoma => sintoma.id == paciente.prontuario.sintoma.id)[0]?.nome}</p>
-                            <p>Editar 📝</p>
-                        </div>
-                        <div class="listaStatus d-flex">
-                            <span class="prioridade ${paciente.situacao.prioridade.toLowerCase().split(' ').join('-').normalize("NFD").replace(/\p{Diacritic}/gu, "")} rounded-pill">${paciente.situacao.prioridade}</span>
-                            <span class="status ${paciente.situacao.status.toLowerCase().includes('esperando') ? 'aguardando' : paciente.situacao.status.toLowerCase().split(' ').join('-').normalize("NFD").replace(/\p{Diacritic}/gu, "")} rounded-pill">${paciente.situacao.status}</span>
+                <a href="./paciente?id=${paciente.id}">
+                    <div class="d-grid">
+                        <div>
+                            <h2>${paciente.nome + ' ' + paciente.sobrenome} </h2>
+                            <div class="detalhes d-flex flex-sb">
+                                <p class="py-3 px-2">${paciente.sintomasLabels?.join(', ')}</p>
+                                <p>Editar 📝</p>
+                            </div>
+                            <div class="listaStatus d-flex">
+                                <span class="prioridade rounded-pill ${replaceWhiteSpace(normalize(paciente.prioridadeLabel))}">${paciente.prioridadeLabel}</span>
+                                <span class="status ${replaceWhiteSpace(normalize(paciente.statusLabel))} rounded-pill">${paciente.statusLabel}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-            `;
+                </a>
+                `;
             document.querySelector("#pacientes").appendChild(pacienteElement);
         });
     }
-    catch (e) {
-        console.log(e);
-        localStorage.clear();
+    else {
+        document.querySelector('#emptyList').setAttribute("style", "display: show");
     }
+
 }
 
 function search() {
-    const searchTerm = document.querySelector("#list-search").value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    const searchTerm = normalize(document.querySelector("#list-search").value);
     document.querySelectorAll(".patient-card").forEach(paciente => {
-        if (paciente.querySelector("h2").innerText
-            .toLowerCase().normalize("NFD")
-            .replace(/\p{Diacritic}/gu, "").includes(searchTerm)
+        if (normalize(paciente.querySelector("h2").innerText)?.includes(searchTerm)
             ||
-            paciente.querySelector("div span").innerText
-                .toLowerCase().normalize("NFD")
-                .replace(/\p{Diacritic}/gu, "").includes(searchTerm)) {
+            normalize(paciente.querySelector("div span").innerText)?.includes(searchTerm)) {
 
             paciente.style.display = "block";
         }
@@ -126,9 +108,16 @@ function search() {
     });
 }
 
+function normalize(text) {
+    return text ? text.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "") : '';
+}
+
+function replaceWhiteSpace(text) {
+    return text.replace(' ', '-');
+}
+
 async function inicializar() {
     await updateSortOrderElement(getSortOrderElement(sortOrderDesc));
-    await carregarPacientesDeTeste();
     await carregarPacientes();
     await atualizarOrdemDaLista();
     await carregarListaDePacientes();
@@ -158,7 +147,7 @@ function ordenarListaPorPrioridade(desc) {
 
 window.addEventListener("load", inicializar);
 document.getElementById("add").addEventListener("click", () => {
-    document.location.href = "pacienteDetalhes.html";
+    document.location.href = "paciente";
 });
 
 document.querySelector("#sort").addEventListener("click", switchSortOrder);
@@ -167,4 +156,4 @@ document.querySelector("#list-search").addEventListener("focus", hideHeaderButto
 document.querySelector("#list-search").addEventListener("blur", showHeaderButtons);
 document.querySelector("#list-search").addEventListener("input", search);
 
-navigator.serviceWorker.register('/sw.js');
+//navigator.serviceWorker.register('/sw.js');

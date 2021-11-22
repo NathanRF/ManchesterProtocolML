@@ -2,6 +2,10 @@
 {
     public class TipoSintoma
     {
+        public TipoSintoma()
+        {
+
+        }
         public TipoSintoma(int id, string nome)
         {
             Id = id;

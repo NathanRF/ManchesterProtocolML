@@ -37,27 +37,8 @@
     </header>
     <main class="my-1">
         <ol id="pacientes">
-            @foreach (var paciente in Model)
-            {
-                <li class="py-2 px-2 border-bottom patient-card">
-                    <a href="./paciente?id=@paciente.Id">
-                        <div class="d-grid">
-                            <div>
-                                <h2>@(paciente.Nome + ' ' + paciente.Sobrenome)</h2>
-                                <div class="detalhes d-flex flex-sb">
-                                    <p class="py-3 px-2">@paciente.Prontuario.ListaSintomas</p>
-                                    <p>Editar 📝</p>
-                                </div>
-                                <div class="listaStatus d-flex">
-                                    <span class="prioridade @paciente.Situacao.Prioridade.IdentificadorNormalizado rounded-pill">@paciente.Situacao.Prioridade.Identificador</span>
-                                    <span class="status @paciente.Situacao.Status.IdentificadorNormalizado rounded-pill">@paciente.Situacao.Status.Identificador</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            }
         </ol>
+        <span id="emptyList">Nenhum paciente cadastrado</span>
         <div class="float">
             <button class="btn" type="button" id="add">+</button>
         </div>

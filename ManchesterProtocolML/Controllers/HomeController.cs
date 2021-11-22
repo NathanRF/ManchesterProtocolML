@@ -52,7 +52,7 @@ namespace ManchesterProtocolML.Controllers
                 a
 
             };
-            return View(ps);
+            return View();
         }
 
         public IActionResult Privacy()
