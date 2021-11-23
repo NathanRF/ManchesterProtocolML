@@ -7,6 +7,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using FluentValidation.Results;
 using ManchesterProtocolML.Data;
+using System.Net.Http;
+using System.Text.Json;
+using System.IO;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace ManchesterProtocolML.Controllers
 {
@@ -32,15 +39,14 @@ namespace ManchesterProtocolML.Controllers
 
         [HttpPost]
         [Route("salvar")]
-        public IActionResult Salvar(Paciente paciente)
+        public async Task<IActionResult> Salvar(PrioridadeViewModel paciente)
         {
-            //PacienteValidator p = new PacienteValidator();
-            //var erros = p.Validate(paciente).Errors;
-            //foreach (var erro in erros)
-            //{
-            //    ModelState.AddModelError(erro.ErrorCode, erro.ErrorMessage);
-            //}
-            return View(paciente);
+            HttpClient httpClient = new HttpClient();
+
+            var response = await httpClient.PostAsJsonAsync("https://predictmanchester.azurewebsites.net/api/Predict", paciente);
+            var priority = (await response.Content.ReadFromJsonAsync<PrioridadeResponse>());
+
+            return Json(priority.PriorityCode);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

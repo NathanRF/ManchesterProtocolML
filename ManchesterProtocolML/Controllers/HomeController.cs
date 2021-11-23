@@ -29,7 +29,7 @@ namespace ManchesterProtocolML.Controllers
             idade: 80,
             sobrenome: "testado",
             horaDeEntrada: DateTime.Now,
-            prontuario: new Prontuario(Guid.NewGuid(), 35, 99, 20, sintomas),
+            prontuario: new Prontuario(Guid.NewGuid(), 35, 89, 99, 20, sintomas),
             situacao: new Situacao(Guid.NewGuid(), Statuses.Aguardando, Prioridades.PoucoUrgente)
             );
             List<Paciente> ps = new List<Paciente>

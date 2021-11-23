@@ -20,7 +20,7 @@ function preencheFormulario(paciente) {
         document.querySelector('#nome').value = paciente.nome;
         document.querySelector('#sobrenome').value = paciente.sobrenome;
         document.querySelector('#idade').value = paciente.idade;
-        document.querySelector('#chegada').value = new Date(paciente.horaDeEntrada).toISOString().split('T')[1].substring(0, 5);
+        //document.querySelector('#chegada').value = new Date(paciente.horaDeEntrada).toISOString().split('T')[1].substring(0, 5);
         let sintomasSelecionados = new Array();
         const sintomasDisponiveis = Array.prototype.slice.call(document.querySelector('#sintoma').options);
 
@@ -111,7 +111,7 @@ function toggleFieldsInnerLabel(element) {
     }
 }
 
-function prepararSalvamentoPaciente() {
+async function prepararSalvamentoPaciente() {
     if (editando) {
         let pacienteEdit = pacientes.filter(p => p.id == getId())[0] ?? new Object();
         //pacienteEdit.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0]
@@ -121,9 +121,7 @@ function prepararSalvamentoPaciente() {
         pacienteEdit.frequenciaRespiratoria = document.querySelector('#respiracao').value;
         pacienteEdit.status = document.querySelector('#status').value;
         pacienteEdit.statusLabel = document.querySelector('#status').selectedOptions[0].label;
-        pacienteEdit.prioridade = document.querySelector('#priority').value;
-        pacienteEdit.prioridadeLabel = document.querySelector('#priority').selectedOptions[0].label;
-
+        
         pacienteEdit.sintomas = new Array();
         pacienteEdit.sintomasLabels = new Array();
         const options = document.querySelector('#sintoma').selectedOptions;
@@ -131,6 +129,15 @@ function prepararSalvamentoPaciente() {
             pacienteEdit.sintomas.push(options[i].value);
             pacienteEdit.sintomasLabels.push(options[i].label);
         }
+
+        const priorityCode = await obterPrioridade();
+
+        const priorities = Array.prototype.slice.call(document.querySelector('#priority').options);
+        const priority = document.getElementById('priority').options[priorities.filter(s => s.value == priorityCode)[0].index];
+
+        pacienteEdit.prioridade = priority.value;
+        pacienteEdit.prioridadeLabel = priority.text;
+
 
         pacientes.filter(p => p.id == getId())[0] = pacienteEdit;
         console.log("edit form");
@@ -142,7 +149,7 @@ function prepararSalvamentoPaciente() {
         paciente.nome = document.querySelector('#nome').value;
         paciente.sobrenome = document.querySelector('#sobrenome').value;
         paciente.idade = document.querySelector('#idade').value;
-        paciente.horaDeEntrada = new Date((new Date()).toISOString().split('T')[0]+'T'+document.querySelector('#chegada').value);
+        paciente.horaDeEntrada = new Date((new Date()).toISOString().split('T')[0] + 'T' + document.querySelector('#chegada').value);
         //paciente.prontuario = new Prontuario();
         //paciente.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0];
         paciente.sintomas = new Array();
@@ -159,8 +166,14 @@ function prepararSalvamentoPaciente() {
         //paciente.situacao = new Situacao();
         paciente.status = document.querySelector('#status').value;
         paciente.statusLabel = document.querySelector('#status')[document.querySelector('#status').selectedIndex].text;
-        paciente.prioridade = document.querySelector('#priority').value;
-        paciente.prioridadeLabel = document.querySelector('#priority')[document.querySelector('#priority').selectedIndex].text;
+
+        const priorityCode = await obterPrioridade();
+
+        const priorities = Array.prototype.slice.call(document.querySelector('#priority').options);
+        const priority = document.getElementById('priority').options[priorities.filter(s => s.value == priorityCode)[0].index];
+
+        paciente.prioridade = priority.value;
+        paciente.prioridadeLabel = priority.text;
 
         pacientes.push(paciente);
         console.log("create form");
@@ -169,16 +182,48 @@ function prepararSalvamentoPaciente() {
     localStorage.setItem('pacientes', JSON.stringify(pacientes));
 }
 
+async function obterPrioridade() {
+    var url = $("#paciente").attr("action");
+    var formData = new FormData();
+
+    formData.append("Age", $("#idade").val());
+    formData.append("HeartRate", $("#coracao").val());
+    formData.append("OxygenSaturation", $("#oxigenio").val());
+    formData.append("Temperature", $("#temperatura").val());
+    formData.append("RespiratoryRate", $("#respiracao").val());
+    formData.append("PositiveDiscriminator", document.querySelector('#sintoma').selectedOptions[0].value);
+    formData.append("PresentingProblem", document.querySelector('#sintoma').selectedOptions[0].getAttribute('tipo'));
+
+    let priority;
+    await $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        processData: false,
+        contentType: false
+    }).done(function (response) {
+        if (response) {
+            priority = response;
+        }
+        else {
+            throw new Error('Request error');
+        }
+    });
+    return priority;
+}
+
 window.addEventListener("load", carregarLista);
 
 document.getElementById("cancel").addEventListener("click", () => {
     document.location.href = "home";
 });
 
-document.getElementById("save").addEventListener("click", () => {
+document.getElementById("save").addEventListener("click", async () => {
     prepararSalvamentoPaciente();
-    //document.location.href = "home";
-    document.getElementById("paciente").submit();
+    document.location.href = "home";
+    //document.getElementById("paciente").submit();
+    
+    console.log(await obterPrioridade());
 });
 
 document.querySelectorAll(".detail").forEach(element => {

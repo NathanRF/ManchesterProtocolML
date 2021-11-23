@@ -66,7 +66,7 @@
             <select asp-for="Paciente.Prontuario.Sintomas" class="detail" id="sintoma" multiple="multiple">
                 @foreach (var item in Model.Sintomas)
                 {
-                    <option value=@item.Id>@item.Nome</option>
+                    <option value=@item.Id tipo=@item.TipoSintoma.Id>@item.Nome</option>
                 }
             </select>
             <span asp-validation-for="Paciente.Prontuario.Sintomas"></span>
@@ -76,8 +76,8 @@
             <span asp-validation-for="Paciente.Prontuario.FrequenciaCardiaca"></span>
 
             <label for="temperatura" class="innerLabel">Temperatura:</label>
-            <input asp-for="Paciente.Prontuario.FrequenciaCardiaca" class="detail" id="temperatura" placeholder="Temperatura" />
-            <span asp-validation-for="Paciente.Prontuario.FrequenciaCardiaca"></span>
+            <input asp-for="Paciente.Prontuario.Temperatura" class="detail" id="temperatura" placeholder="Temperatura" />
+            <span asp-validation-for="Paciente.Prontuario.Temperatura"></span>
 
             <label for="oxigenio" class="innerLabel">Saturação de oxigênio:</label>
             <input asp-for="Paciente.Prontuario.SaturacaoOxigenio" class="detail" id="oxigenio" placeholder="Saturação de oxigênio" />
