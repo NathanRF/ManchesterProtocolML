@@ -20,12 +20,20 @@ function preencheFormulario(paciente) {
         document.querySelector('#nome').value = paciente.nome;
         document.querySelector('#sobrenome').value = paciente.sobrenome;
         document.querySelector('#idade').value = paciente.idade;
-        document.querySelector('#chegada').value = paciente.horaDeEntrada;
+        document.querySelector('#chegada').value = new Date(paciente.horaDeEntrada).toISOString().split('T')[1].substring(0, 5);
         let sintomasSelecionados = new Array();
         const sintomasDisponiveis = Array.prototype.slice.call(document.querySelector('#sintoma').options);
-        for (var sintoma in paciente.sintomas) {
-            document.getElementById('sintoma').options[sintomasDisponiveis.filter(s => s.value == sintoma)[0].index].selected = true;
+
+        for (var i = 0; i < paciente.sintomas.length; i++) {
+            document.getElementById('sintoma').options[sintomasDisponiveis.filter(s => s.value == paciente.sintomas[i])[0].index].selected = true;
         }
+
+        $(document).ready(function () {
+            $('#sintoma').select2({
+                width: 'auto',
+                id: 'sintoma'
+            });
+        });
 
         document.querySelector('#coracao').value = paciente.frequenciaCardiaca;
         document.querySelector('#temperatura').value = paciente.temperatura;
@@ -103,7 +111,7 @@ function toggleFieldsInnerLabel(element) {
     }
 }
 
-function salvarPaciente() {
+function prepararSalvamentoPaciente() {
     if (editando) {
         let pacienteEdit = pacientes.filter(p => p.id == getId())[0] ?? new Object();
         //pacienteEdit.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0]
@@ -116,6 +124,14 @@ function salvarPaciente() {
         pacienteEdit.prioridade = document.querySelector('#priority').value;
         pacienteEdit.prioridadeLabel = document.querySelector('#priority').selectedOptions[0].label;
 
+        pacienteEdit.sintomas = new Array();
+        pacienteEdit.sintomasLabels = new Array();
+        const options = document.querySelector('#sintoma').selectedOptions;
+        for (var i = 0; i < options.length; i++) {
+            pacienteEdit.sintomas.push(options[i].value);
+            pacienteEdit.sintomasLabels.push(options[i].label);
+        }
+
         pacientes.filter(p => p.id == getId())[0] = pacienteEdit;
         console.log("edit form");
     }
@@ -126,7 +142,7 @@ function salvarPaciente() {
         paciente.nome = document.querySelector('#nome').value;
         paciente.sobrenome = document.querySelector('#sobrenome').value;
         paciente.idade = document.querySelector('#idade').value;
-        paciente.horaDeEntrada = document.querySelector('#chegada').value;
+        paciente.horaDeEntrada = new Date((new Date()).toISOString().split('T')[0]+'T'+document.querySelector('#chegada').value);
         //paciente.prontuario = new Prontuario();
         //paciente.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0];
         paciente.sintomas = new Array();
@@ -160,7 +176,7 @@ document.getElementById("cancel").addEventListener("click", () => {
 });
 
 document.getElementById("save").addEventListener("click", () => {
-    salvarPaciente();
+    prepararSalvamentoPaciente();
     //document.location.href = "home";
     document.getElementById("paciente").submit();
 });

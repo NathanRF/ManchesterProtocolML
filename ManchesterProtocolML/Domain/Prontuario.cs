@@ -29,7 +29,7 @@ namespace ManchesterProtocolML.Models
             get
             {
                 StringBuilder sintomas = new StringBuilder();
-                Sintomas.ForEach(s => sintomas.AppendJoin(", ", s.Nome));
+                Sintomas?.ForEach(s => sintomas.AppendJoin(", ", s.Nome));
                 return sintomas.ToString();
             }
         }

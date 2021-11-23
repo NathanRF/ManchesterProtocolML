@@ -39,7 +39,7 @@
             <span asp-validation-for="Paciente.Idade"></span>
 
             <label for="chegada" class="innerLabel">Hora de chegada:</label>
-            <input type="time" class="detail" id="chegada"/>
+            <input asp-for="Paciente.HoraDeEntrada" class="detail" id="chegada"/>
             <span asp-validation-for="Paciente.HoraDeEntrada"></span>
 
             <label for="priority" class="innerLabel" id="priorityLabel">Prioridade:</label>
