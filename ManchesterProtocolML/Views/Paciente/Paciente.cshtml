@@ -41,14 +41,14 @@
             <input type="time" class="detail" id="chegada"/>
             <span asp-validation-for="Paciente.HoraDeEntrada" class="validation"></span>
 
-            <label for="priority" class="innerLabel" id="priorityLabel">Prioridade:</label>
-            <select asp-for="Paciente.Situacao.Prioridade" class="detail" id="priority">
+            <label for="priority" class="innerLabel" id="priorityLabel" style="display: none">Prioridade:</label>
+            <select asp-for="Paciente.Situacao.Prioridade" class="detail" id="priority" style="display: none">
                 @foreach (var item in Model.Prioridades)
                 {
                     <option value=@item.Id>@item.Identificador</option>
                 }
             </select>
-            <span></span>
+            @*<span></span>*@
 
             <label for="status" class="innerLabel" id="statusLabel">Status:</label>
             <select class="detail" id="status">

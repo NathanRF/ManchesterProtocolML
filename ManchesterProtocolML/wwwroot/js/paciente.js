@@ -20,8 +20,8 @@ function preencheFormulario(paciente) {
         document.querySelector('#nome').value = paciente.nome;
         document.querySelector('#sobrenome').value = paciente.sobrenome;
         document.querySelector('#idade').value = paciente.idade;
-        //document.querySelector('#chegada').value = new Date(paciente.horaDeEntrada).toISOString().split('T')[1].substring(0, 5);
-        let sintomasSelecionados = new Array();
+        document.querySelector('#chegada').value = new Date(paciente.horaDeEntrada).toISOString().split('T')[1].substring(0, 5);
+        
         const sintomasDisponiveis = Array.prototype.slice.call(document.querySelector('#sintoma').options);
 
         for (var i = 0; i < paciente.sintomas.length; i++) {
@@ -69,6 +69,8 @@ function atualizatitulo(titulo) {
 function exibirCamposOcultos() {
     document.querySelector('#status').style.display = 'block';
     document.querySelector('#statusLabel').style.display = 'block';
+    document.querySelector('#priority').style.display = 'block';
+    document.querySelector('#priorityLabel').style.display = 'block';
 }
 
 function formularioDeEdicao(paciente) {
@@ -143,7 +145,7 @@ async function prepararSalvamentoPaciente() {
             pacienteEdit.sintomas = new Array();
             pacienteEdit.sintomasLabels = new Array();
             const options = document.querySelector('#sintoma').selectedOptions;
-            for (var i = 0; i < options.length; i++) {
+            for (let i = 0; i < options.length; i++) {
                 pacienteEdit.sintomas.push(options[i].value);
                 pacienteEdit.sintomasLabels.push(options[i].label);
             }
@@ -170,9 +172,9 @@ async function prepararSalvamentoPaciente() {
             paciente.sintomas = new Array();
             paciente.sintomasLabels = new Array();
             const options = document.querySelector('#sintoma').selectedOptions;
-            for (var i = 0; i < options.length; i++) {
-                paciente.sintomas.push(options[i].value);
-                paciente.sintomasLabels.push(options[i].label);
+            for (let j = 0; j < options.length; j++) {
+                paciente.sintomas.push(options[j].value);
+                paciente.sintomasLabels.push(options[j].label);
             }
             paciente.frequenciaCardiaca = document.querySelector('#coracao').value;
             paciente.temperatura = document.querySelector('#temperatura').value;
@@ -238,7 +240,6 @@ document.getElementById("cancel").addEventListener("click", () => {
 document.getElementById("save").addEventListener("click", async () => {
     await prepararSalvamentoPaciente();
     document.location.href = "home";
-    //document.getElementById("paciente").submit();
 });
 
 document.querySelectorAll(".detail").forEach(element => {
