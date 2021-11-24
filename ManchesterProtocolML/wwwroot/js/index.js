@@ -137,10 +137,10 @@ function ordenarListaPorNome(desc) {
 function ordenarListaPorPrioridade(desc) {
     Pacientes.sort((a, b) => {
         if (!desc) {
-            return a.situacao?.codigoPrioridade?.toString()?.localeCompare(b.situacao?.codigoPrioridade?.toString());
+            return a.prioridade?.toString()?.localeCompare(b.prioridade?.toString());
         }
         else {
-            return b.situacao?.codigoPrioridade?.toString()?.localeCompare(a.situacao?.codigoPrioridade?.toString());
+            return b.prioridade?.toString()?.localeCompare(a.prioridade?.toString());
         }
     });
 }
@@ -155,5 +155,3 @@ document.querySelector("#order-type").onchange = reordenarPacientes;
 document.querySelector("#list-search").addEventListener("focus", hideHeaderButtons);
 document.querySelector("#list-search").addEventListener("blur", showHeaderButtons);
 document.querySelector("#list-search").addEventListener("input", search);
-
-//navigator.serviceWorker.register('/sw.js');
