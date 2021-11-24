@@ -27,9 +27,10 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                     {
-                        Sintomas.Teste
+                        Sintomas.List[3]
                     }
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.Aguardando, Prioridades.Emergencia)
@@ -54,6 +55,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.Aguardando, Prioridades.PoucoUrgente)
@@ -78,6 +80,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.Aguardando, Prioridades.NaoUrgente)
@@ -102,6 +105,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.Aguardando, Prioridades.NaoUrgente)
@@ -126,6 +130,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.Atendido, Prioridades.MuitoUrgente)
@@ -150,6 +155,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.EmConsulta, Prioridades.Urgente)
@@ -174,6 +180,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.EmConsulta, Prioridades.Urgente)
@@ -198,6 +205,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.EmConsulta, Prioridades.Urgente)
@@ -239,6 +247,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.EmConsulta, Prioridades.Urgente)
@@ -263,6 +272,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: null
@@ -287,6 +297,7 @@ namespace ManchesterProtocolIML.Tests
                     frequenciaCardiaca: 59,
                     saturacaoOxigenio: 98,
                     frequenciaRespiratoria: 89,
+                    temperatura: 37,
                     sintomas: new List<Sintoma>()
                 ),
                 situacao: new Situacao(Guid.NewGuid(), Statuses.EmConsulta, Prioridades.Urgente)

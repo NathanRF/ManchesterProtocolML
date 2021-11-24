@@ -19,9 +19,10 @@ namespace ManchesterProtocolIML.Tests
                 frequenciaCardiaca: 80,
                 saturacaoOxigenio: 80,
                 frequenciaRespiratoria: 50,
+                temperatura: 37,
                 sintomas: new List <Sintoma>()
                 {
-                    Sintomas.Teste
+                    Sintomas.List[7]
                 }
              );
             var validator = new ProntuarioValidator();
@@ -37,6 +38,7 @@ namespace ManchesterProtocolIML.Tests
                 frequenciaCardiaca: 300,
                 saturacaoOxigenio: -10,
                 frequenciaRespiratoria: 1000,
+                temperatura: 37,
                 sintomas: new List<Sintoma>()
              );
             var validator = new ProntuarioValidator();
