@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using ManchesterProtocolML.Models;
-using System;
 
 namespace ManchesterProtocolML.Validators
 {
@@ -8,28 +7,28 @@ namespace ManchesterProtocolML.Validators
     {
         public ProntuarioValidator()
         {
-            RuleFor(c => c.Id).NotEmpty().WithMessage("Prontuário com Id inválido");
+            RuleFor(c => c.Id)
+                .NotEmpty()
+                .WithMessage("* Prontuário com Id inválido");
 
             RuleFor(c => c.FrequenciaCardiaca)
-                .LessThan(200)
-                .WithMessage("O campo 'Frequência Cardiaca' não deve ser maior que 200")
-                .GreaterThan(0)
-                .WithMessage("O campo 'Frequência Cardiaca' deve ser maior ou igual a 0");
+                .InclusiveBetween(0, 200)
+                .WithMessage("* O campo 'Frequência Cardiaca' deve ter um valor entre 0 e 200");
 
             RuleFor(c => c.SaturacaoOxigenio)
-                .LessThan(101)
-                .WithMessage("O campo 'Saturação de Oxigênio' não deve ser maior que 100")
-                .GreaterThan(0)
-                .WithMessage("O campo 'Saturação de Oxigênio' deve ser maior ou igual a 0");
+                .InclusiveBetween(0, 101)
+                .WithMessage("* O campo 'Saturação de Oxigênio' deve ter um valor entre 0 e 100");
 
             RuleFor(c => c.FrequenciaRespiratoria)
-                .LessThan(100)
-                .WithMessage("O campo 'Frequência Respiratória' não deve ser maior que 100")
-                .GreaterThan(0)
-                .WithMessage("O campo 'Frequência Respiratória' deve ser maior ou igual a 0");
+                .InclusiveBetween(0, 100)
+                .WithMessage("* O campo 'Frequência Respiratória' deve ter um valor entre 0 e 100");
+
+            RuleFor(c => c.Temperatura)
+                .InclusiveBetween(34, 42)
+                .WithMessage("* O campo 'Temperatura' deve ter um valor entre 34 e 42");
 
             RuleFor(c => c.Sintomas).NotEmpty()
-                .WithMessage("O sintoma precisa ser informado no prontuário");
+                .WithMessage("* O sintoma precisa ser informado no prontuário");
         }
     }
 }

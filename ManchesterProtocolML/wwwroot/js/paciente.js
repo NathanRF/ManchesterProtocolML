@@ -111,88 +111,105 @@ function toggleFieldsInnerLabel(element) {
     }
 }
 
+function obterErrosFormulario() {
+    const validationElements = document.querySelectorAll(".validation");
+    let validations = new Array();
+    validationElements.forEach(element => {
+        if(element.textContent)
+            validations.push(element.textContent);
+    });
+    return validations;
+}
+
+function formularioSemErros() {
+    return obterErrosFormulario().length === 0;
+}
+
+function alertaErrosFormulario() {
+    alert(obterErrosFormulario().join('\n'));
+}
+
 async function prepararSalvamentoPaciente() {
-    if (editando) {
-        let pacienteEdit = pacientes.filter(p => p.id == getId())[0] ?? new Object();
-        //pacienteEdit.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0]
-        pacienteEdit.frequenciaCardiaca = document.querySelector('#coracao').value;
-        pacienteEdit.temperatura = document.querySelector('#temperatura').value;
-        pacienteEdit.saturacaoOxigenio = document.querySelector('#oxigenio').value;
-        pacienteEdit.frequenciaRespiratoria = document.querySelector('#respiracao').value;
-        pacienteEdit.status = document.querySelector('#status').value;
-        pacienteEdit.statusLabel = document.querySelector('#status').selectedOptions[0].label;
-        
-        pacienteEdit.sintomas = new Array();
-        pacienteEdit.sintomasLabels = new Array();
-        const options = document.querySelector('#sintoma').selectedOptions;
-        for (var i = 0; i < options.length; i++) {
-            pacienteEdit.sintomas.push(options[i].value);
-            pacienteEdit.sintomasLabels.push(options[i].label);
+    if (formularioSemErros()) {
+        if (editando) {
+            let pacienteEdit = pacientes.filter(p => p.id == getId())[0] ?? new Object();
+            pacienteEdit.frequenciaCardiaca = document.querySelector('#coracao').value;
+            pacienteEdit.temperatura = document.querySelector('#temperatura').value;
+            pacienteEdit.saturacaoOxigenio = document.querySelector('#oxigenio').value;
+            pacienteEdit.frequenciaRespiratoria = document.querySelector('#respiracao').value;
+            pacienteEdit.status = document.querySelector('#status').value;
+            pacienteEdit.statusLabel = document.querySelector('#status').selectedOptions[0].label;
+
+            pacienteEdit.sintomas = new Array();
+            pacienteEdit.sintomasLabels = new Array();
+            const options = document.querySelector('#sintoma').selectedOptions;
+            for (var i = 0; i < options.length; i++) {
+                pacienteEdit.sintomas.push(options[i].value);
+                pacienteEdit.sintomasLabels.push(options[i].label);
+            }
+
+            const priorityCode = await obterPrioridade();
+
+            const priorities = Array.prototype.slice.call(document.querySelector('#priority').options);
+            const priority = document.getElementById('priority').options[priorities.filter(s => s.value == priorityCode)[0].index];
+
+            pacienteEdit.prioridade = priority.value;
+            pacienteEdit.prioridadeLabel = priority.text;
+
+
+            pacientes.filter(p => p.id == getId())[0] = pacienteEdit;
+        }
+        else {
+            let paciente = new Object();
+            paciente.id = uuidv4();
+            document.querySelector('#id').value = paciente.id;
+            paciente.nome = document.querySelector('#nome').value;
+            paciente.sobrenome = document.querySelector('#sobrenome').value;
+            paciente.idade = document.querySelector('#idade').value;
+            paciente.horaDeEntrada = new Date((new Date()).toISOString().split('T')[0] + 'T' + document.querySelector('#chegada').value);
+            paciente.sintomas = new Array();
+            paciente.sintomasLabels = new Array();
+            const options = document.querySelector('#sintoma').selectedOptions;
+            for (var i = 0; i < options.length; i++) {
+                paciente.sintomas.push(options[i].value);
+                paciente.sintomasLabels.push(options[i].label);
+            }
+            paciente.frequenciaCardiaca = document.querySelector('#coracao').value;
+            paciente.temperatura = document.querySelector('#temperatura').value;
+            paciente.saturacaoOxigenio = document.querySelector('#oxigenio').value;
+            paciente.frequenciaRespiratoria = document.querySelector('#respiracao').value;
+            paciente.status = document.querySelector('#status').value;
+            paciente.statusLabel = document.querySelector('#status')[document.querySelector('#status').selectedIndex].text;
+
+            const priorityCode = await obterPrioridade();
+
+            const priorities = Array.prototype.slice.call(document.querySelector('#priority').options);
+            const priority = document.getElementById('priority').options[priorities.filter(s => s.value == priorityCode)[0].index];
+
+            paciente.prioridade = priority.value;
+            paciente.prioridadeLabel = priority.text;
+
+            pacientes.push(paciente);
         }
 
-        const priorityCode = await obterPrioridade();
-
-        const priorities = Array.prototype.slice.call(document.querySelector('#priority').options);
-        const priority = document.getElementById('priority').options[priorities.filter(s => s.value == priorityCode)[0].index];
-
-        pacienteEdit.prioridade = priority.value;
-        pacienteEdit.prioridadeLabel = priority.text;
-
-
-        pacientes.filter(p => p.id == getId())[0] = pacienteEdit;
-        console.log("edit form");
+        localStorage.setItem('pacientes', JSON.stringify(pacientes));
     }
     else {
-        let paciente = new Object();
-        paciente.id = uuidv4();
-        document.querySelector('#id').value = paciente.id;
-        paciente.nome = document.querySelector('#nome').value;
-        paciente.sobrenome = document.querySelector('#sobrenome').value;
-        paciente.idade = document.querySelector('#idade').value;
-        paciente.horaDeEntrada = new Date((new Date()).toISOString().split('T')[0] + 'T' + document.querySelector('#chegada').value);
-        //paciente.prontuario = new Prontuario();
-        //paciente.sintoma = Sintomas.filter(sintoma => sintoma.nome == document.querySelector('#sintoma').value)[0];
-        paciente.sintomas = new Array();
-        paciente.sintomasLabels = new Array();
-        const options = document.querySelector('#sintoma').selectedOptions;
-        for (var i = 0; i < options.length; i++) {
-            paciente.sintomas.push(options[i].value);
-            paciente.sintomasLabels.push(options[i].label);
-        }
-        paciente.frequenciaCardiaca = document.querySelector('#coracao').value;
-        paciente.temperatura = document.querySelector('#temperatura').value;
-        paciente.saturacaoOxigenio = document.querySelector('#oxigenio').value;
-        paciente.frequenciaRespiratoria = document.querySelector('#respiracao').value;
-        //paciente.situacao = new Situacao();
-        paciente.status = document.querySelector('#status').value;
-        paciente.statusLabel = document.querySelector('#status')[document.querySelector('#status').selectedIndex].text;
-
-        const priorityCode = await obterPrioridade();
-
-        const priorities = Array.prototype.slice.call(document.querySelector('#priority').options);
-        const priority = document.getElementById('priority').options[priorities.filter(s => s.value == priorityCode)[0].index];
-
-        paciente.prioridade = priority.value;
-        paciente.prioridadeLabel = priority.text;
-
-        pacientes.push(paciente);
-        console.log("create form");
+        alertaErrosFormulario();
     }
-
-    localStorage.setItem('pacientes', JSON.stringify(pacientes));
 }
 
 async function obterPrioridade() {
     var url = $("#paciente").attr("action");
     var formData = new FormData();
 
-    formData.append("Age", $("#idade").val());
-    formData.append("HeartRate", $("#coracao").val());
-    formData.append("OxygenSaturation", $("#oxigenio").val());
-    formData.append("Temperature", $("#temperatura").val());
-    formData.append("RespiratoryRate", $("#respiracao").val());
-    formData.append("PositiveDiscriminator", document.querySelector('#sintoma').selectedOptions[0].value);
-    formData.append("PresentingProblem", document.querySelector('#sintoma').selectedOptions[0].getAttribute('tipo'));
+    formData.append("age", $("#idade").val() ?? 0);
+    formData.append("heartRate", $("#coracao").val() ?? 0);
+    formData.append("oxygenSaturation", $("#oxigenio").val() ?? 0);
+    formData.append("temperature", $("#temperatura").val() ?? 0);
+    formData.append("respiratoryRate", $("#respiracao").val() ?? 0);
+    formData.append("positiveDiscriminator", document.querySelector('#sintoma').selectedOptions[0].value ?? 0);
+    formData.append("presentingProblem", document.querySelector('#sintoma').selectedOptions[0].getAttribute('tipo') ?? 0);
 
     let priority;
     await $.ajax({
@@ -202,7 +219,7 @@ async function obterPrioridade() {
         processData: false,
         contentType: false
     }).done(function (response) {
-        if (response) {
+        if (response === 0 || response) {
             priority = response;
         }
         else {
@@ -219,11 +236,9 @@ document.getElementById("cancel").addEventListener("click", () => {
 });
 
 document.getElementById("save").addEventListener("click", async () => {
-    prepararSalvamentoPaciente();
+    await prepararSalvamentoPaciente();
     document.location.href = "home";
     //document.getElementById("paciente").submit();
-    
-    console.log(await obterPrioridade());
 });
 
 document.querySelectorAll(".detail").forEach(element => {

@@ -11,7 +11,8 @@
                 "VeryUrgent" => 3,
                 "Urgent" => 2,
                 "Standard" => 1,
-                "NonUrgent" => 0
+                "NonUrgent" => 0,
+                _ => throw new System.NotImplementedException()
             };
         }
     }

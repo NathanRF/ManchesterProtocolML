@@ -32,8 +32,21 @@ namespace ManchesterProtocolML.Controllers
         {
             PacienteViewModel pacienteViewModel = new PacienteViewModel();
             pacienteViewModel.Prioridades = Prioridades.List;
+            pacienteViewModel.Paciente = new Paciente();
             pacienteViewModel.Statuses = Statuses.List;
             pacienteViewModel.Sintomas = Sintomas.List;
+
+            PacienteValidator validator = new PacienteValidator();
+            ValidationResult validationResult = validator.Validate(pacienteViewModel.Paciente);
+
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+            }
+
             return View(pacienteViewModel);
         }
 

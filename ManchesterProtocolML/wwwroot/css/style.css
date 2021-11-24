@@ -300,6 +300,10 @@ a {
     transform: translate(-50%, -50%);
 }
 
+.validation {
+    color: red;
+}
+
 /* #priority {
     display: none;
 }
