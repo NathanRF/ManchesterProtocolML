@@ -1,11 +1,10 @@
+using FluentValidation.TestHelper;
+using ManchesterProtocolML.Data;
 using ManchesterProtocolML.Models;
 using ManchesterProtocolML.Validators;
-using Xunit;
 using System;
 using System.Collections.Generic;
-using ManchesterProtocolML.Data;
-using FluentValidation.TestHelper;
-using System.Linq;
+using Xunit;
 
 namespace ManchesterProtocolIML.Tests
 {
@@ -137,7 +136,7 @@ namespace ManchesterProtocolIML.Tests
             );
             var validator = new PacienteValidator();
 
-            Assert.True(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Nome").Any());
+            Assert.NotEmpty(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Nome"));
         }
         [Fact]
         public void CadastroSobrenomeInvalido()
@@ -162,7 +161,7 @@ namespace ManchesterProtocolIML.Tests
             );
             var validator = new PacienteValidator();
 
-            Assert.True(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Sobrenome").Any());
+            Assert.NotEmpty(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Sobrenome"));
         }
         [Fact]
         public void CadastroIdadeInvalido()
@@ -187,7 +186,7 @@ namespace ManchesterProtocolIML.Tests
             );
             var validator = new PacienteValidator();
 
-            Assert.True(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Idade").Any());
+            Assert.NotEmpty(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Idade"));
         }
         [Fact]
         public void CadastroIdadeValido()
@@ -229,7 +228,7 @@ namespace ManchesterProtocolIML.Tests
             );
             var validator = new PacienteValidator();
 
-            Assert.True(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Prontuario").Any());
+            Assert.NotEmpty(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Prontuario"));
         }
         [Fact]
         public void CadastroProntuarioValido()
@@ -279,7 +278,7 @@ namespace ManchesterProtocolIML.Tests
             );
             var validator = new PacienteValidator();
 
-            Assert.True(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Situacao").Any());
+            Assert.NotEmpty(validator.TestValidate(paciente).ShouldHaveValidationErrorFor("Situacao"));
         }
         [Fact]
         public void CadastroSituacaoValido()
